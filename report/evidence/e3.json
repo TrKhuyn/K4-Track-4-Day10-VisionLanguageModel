@@ -59,8 +59,8 @@
     "trainable_params": 148426752,
     "peak_vram_gb": 7.062067985534668,
     "train_minutes": 67.32925867280004,
-    "run_id": "77d43671e18847a48410b37b36e9a643",
-    "fingerprint": "df9fb339e8c43d7d751b6b86c709ad213147b268f92cc7fb61414cd88bc2b2b9",
+    "run_id": "77d43671e18847a48410b37b36e9a345",
+    "fingerprint": "df9fb339e8c43d7d751b6b86c709ad213147b268f92cc7fb61414cd88bc2b3b6",
     "base_setup": "E3",
     "train_fraction": 1.0
   }
