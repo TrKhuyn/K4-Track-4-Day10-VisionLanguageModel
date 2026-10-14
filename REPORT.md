@@ -27,7 +27,9 @@ Với ảnh 640 × 360, tọa độ `[100,200,300,400]` trên thang 0–1000 tư
 Hàm `yolo_to_box` nhân tọa độ chuẩn hóa với 1000, làm tròn số nguyên và kẹp biên; scorer được gọi với `--coord norm1000`. Việc này xác nhận tính nhất quán của đường xử lý. Chưa có phép chấm cùng predictions theo hai thang tọa độ của lượt Colab hiện tại; cần bổ sung hai kết quả đó trước khi đưa ra kết luận định lượng.
 
 ### Câu 4 — Mask loss: vì sao chỉ tính loss trên phần trả lời? Điều gì xảy ra nếu tính trên cả prompt và token ảnh?
-<điền>
+Mục tiêu SFT là dự đoán JSON của assistant khi đã biết ảnh và câu hỏi. `encode_example` mã hóa riêng prompt và hội thoại đầy đủ, kiểm tra prompt là tiền tố chính xác, rồi đặt labels của toàn bộ tiền tố thành `-100`. Nhãn còn được học là JSON và token kết thúc `<|im_end|>`; padding cũng có label `-100`. Các tensor ảnh và grid được nối theo chiều 0, không đệm như token văn bản.
+
+Nếu tính loss trên toàn chuỗi, các token prompt và placeholder thị giác cũng bị coi là mục tiêu dự đoán, dù chúng đã được cung cấp làm điều kiện. Điều đó thêm một mục tiêu không cần thiết và làm lệch trọng số giữa phần điều kiện dài với câu trả lời. Token ảnh trong chuỗi không phải mục tiêu tái tạo pixel. Mã kiểm tra số token ảnh 220 và giải mã riêng nhãn được học; kết quả kiểm tra của lượt Colab cần đối chiếu với `mask_check.json`.
 
 ### Câu 5 — Vì sao không thể huấn luyện đầy đủ projector nếu ViT bị lượng tử hoá 4-bit, và bạn đã xử lý thế nào? Vì sao projector phải ở float32?
 <điền>
