@@ -1,5 +1,5 @@
-Họ tên: <điền họ tên>
-`dataset_version`: <điền, lấy từ data/splits/meta.json>
+Họ tên: Trần Ngọc Khuyến
+`dataset_version`: `d10-21e4070301`
 
 ## Bảng tổng hợp (số của bạn, lấy từ `report/evidence/*.json`)
 
@@ -29,7 +29,17 @@ Họ tên: <điền họ tên>
 <điền>
 
 ### Câu 6 — Split theo phiên quay: vì sao chia ngẫu nhiên sẽ cho F1 cao giả? Số ảnh và số box từng lớp ở mỗi split là bao nhiêu?
-<điền>
+Các frame gần nhau có thể cùng chứa một ổ gà và gần như cùng bối cảnh. Random split đưa những frame đó vào cả train và test, làm mô hình được đánh giá trên cảnh đã gặp và khiến F1 có thể cao giả. Chia theo session giữ toàn bộ phiên quay trong một split; các phiên được gán tất định bằng thuật toán của đề.
+
+Phân bổ yêu cầu của dataset, cũng được kiểm tra bằng assert trong mã, là:
+
+| Split | Ảnh | Box pothole | Box crack | Box manhole |
+|---|---:|---:|---:|---:|
+| Train | 1422 | 1074 | 1750 | 691 |
+| Val | 276 | 66 | 470 | 103 |
+| Test | 311 | 121 | 299 | 163 |
+
+Tổng cộng 2009 ảnh và 4737 box. Mã kiểm tra các tập session không giao nhau. Các số này là đặc điểm split chuẩn của đề, không phải điểm số huấn luyện.
 
 ### Câu 7 — So sánh E1/E2/E3: mở projector và LoRA trên ViT có đáng không (F1, CI95, VRAM, thời gian)?
 <điền>
