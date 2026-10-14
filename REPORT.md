@@ -5,7 +5,7 @@ Họ tên: Trần Ngọc Khuyến
 
 | Mã | Setup | Tham số huấn luyện | VRAM đỉnh (GB) | Phút | F1 | CI95 | FP/ảnh | F1 pothole | F1 crack | F1 manhole |
 |---|---|---|---|---|---|---|---|---|---|---|
-| E0 | zero-shot | 0 | | | | | | | | |
+| E0 | zero-shot | 0 | Không ghi nhận | Không ghi nhận | 0.085903 | [0.061364, 0.112798] | 0.919614 | 0.107383 | 0.032000 | 0.177606 |
 | E1 | LoRA LLM | | | | | | | | | |
 | E2 | + projector | | | | | | | | | |
 | E3 | + LoRA ViT | | | | | | | | | |
@@ -17,10 +17,14 @@ Họ tên: Trần Ngọc Khuyến
 <điền>
 
 ### Câu 2 — E0: `parse_valid_rate` bằng bao nhiêu, và hai lỗi phổ biến nhất của model gốc là gì (kèm một ví dụ output thô)?
-<điền>
+E0 có `parse_valid_rate = 0.8360128617363344`, tương ứng 260/311 ảnh parse hợp lệ và 51 ảnh không hợp lệ. F1 là 0.085903, precision 0.120000, recall 0.066895; có 39 TP, 286 FP và 544 FN. Kết quả cho thấy hai vấn đề ở mức tổng hợp: chưa bảo đảm định dạng đầu ra và phát hiện/định vị còn kém. Evidence không cho biết riêng nguyên nhân sai lớp hay sai box.
+
+Mã lưu nguyên văn đầu ra vào `predictions/e0_test.jsonl`. File raw chưa được chuyển về repo hiện tại, nên chưa trích ví dụ output thật hoặc khẳng định hai dạng lỗi thô phổ biến nhất như markdown, sai thang hay sai lớp. Output được chấm bằng parser nguyên bản của đề, không tự sửa trước khi tính điểm.
 
 ### Câu 3 — Thang 0–1000: nếu chấm output theo pixel (hoặc ngược lại) thì F1 ra sao và vì sao? Bạn đã kiểm chứng điều này thế nào?
-<điền>
+Với ảnh 640 × 360, tọa độ `[100,200,300,400]` trên thang 0–1000 tương ứng `[64,72,192,144]` pixel. Nếu scorer hiểu nhầm bốn số đầu là pixel, vùng đánh giá bị dịch và đổi kích thước; IoU có thể xuống dưới 0,5 dù JSON vẫn hợp lệ. F1 sẽ thay đổi tùy các box thật, không thể khẳng định một giá trị cụ thể trước khi chấm.
+
+Hàm `yolo_to_box` nhân tọa độ chuẩn hóa với 1000, làm tròn số nguyên và kẹp biên; scorer được gọi với `--coord norm1000`. Việc này xác nhận tính nhất quán của đường xử lý. Chưa có phép chấm cùng predictions theo hai thang tọa độ của lượt Colab hiện tại; cần bổ sung hai kết quả đó trước khi đưa ra kết luận định lượng.
 
 ### Câu 4 — Mask loss: vì sao chỉ tính loss trên phần trả lời? Điều gì xảy ra nếu tính trên cả prompt và token ảnh?
 <điền>
