@@ -1,0 +1,4 @@
+# Keep Colab's preinstalled torch/torchvision. Base versions are owned by the lab.
+-r requirements-colab.txt
+pytest
+matplotlib

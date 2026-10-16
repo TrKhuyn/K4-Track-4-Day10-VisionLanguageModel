@@ -1,5 +1,7 @@
 # Các điểm kỹ thuật đã xử lý
 
+> **Cập nhật 15/10/2026:** Phần bên dưới mô tả pipeline `run_lab.py` cũ. Notebook hiện tại dùng luồng E0–E4 nhúng mã hỗ trợ riêng; xem [COLAB_SETUP.md](COLAB_SETUP.md) và [CHECKLIST.md](CHECKLIST.md) để chạy. Cell khôi phục E4 đã chuyển sang `lab_day10_e4_recovery.ipynb`. Luồng chính mới lưu checkpoint mỗi 25 bước hoặc khoảng 5 phút, có optimizer/RNG để resume và backup inference/log định kỳ. E5 trong notebook chỉ kiểm tra reward.
+
 Bản notebook đã nhận chỉ có E4/E5 trống và chọn tay E3. Bản mới chạy tuần tự E0–E5, lưu artifact lên Drive và đóng gói kết quả thực; `REPORT.md` chờ viết sau khi chạy. Markdown gốc của notebook giữ nguyên.
 
 | Điểm | Xử lý |
